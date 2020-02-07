@@ -49,7 +49,6 @@ createTable() {
     echo ${carr[@]} | tr " " "," >$tbname
 
     echo "Table ${tbname} created successfully"
-    readTableInput
 
 }
 
@@ -58,13 +57,19 @@ readTableInput() {
     read input
     case $input in
     1)
+        clear
         selectTable
+        readTableInput
         ;;
     2)
+        clear
         createTable
+        readTableInput
         ;;
     3)
+        clear
         deleteTable
+        readTableInput
         ;;
     4)
         clear
@@ -92,7 +97,17 @@ selectTable() {
         readTableOptions "$tbname"
     else
         echo "Table Not Found!"
-        selectTable
+        #selectTable
+    fi
+
+}
+
+deleteTable() {
+    read -p "PLZ Enter Table Name to be deleted " tbname
+    if [ -f "$tbname" ]; then
+        rm "$tbname"
+    else
+        echo "Table Not Found!"
     fi
 
 }
