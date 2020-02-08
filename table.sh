@@ -11,10 +11,26 @@ showTableOptions() {
     echo "================"
 }
 
+deletetRecord() {
+    typeset -i recordno
+    read -p "Enter Record no.: " recordno
+    while ! [[ "$recordno" =~ ^[0-9]+$ ]]; do
+                read -p "Enter valid number: " recordno
+    done
+    recordno=$recordno+1
+    if [ $recordno -eq 1 ]; then
+        echo "Can't delete record 0"
+    else
+        sed -i "${recordno}d" ${selectedTable}
+    fi
+
+
+}
+
 insertRecord() {
     declare -a record
     typeset -i index=0
-    for i in $(tr "|," "| " <$selectedTable); do
+    for i in $(head -1 $selectedTable | tr "|," "| "); do
         dtype=$(echo $i | grep -o -P '(?<=\|).*(?=\|)')
         cname=$(echo $i | grep -o -P '^[^\|]*')
 
