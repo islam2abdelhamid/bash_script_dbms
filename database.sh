@@ -109,5 +109,4 @@ deleteTable() {
     else
         echo "Table Not Found!"
     fi
-
 }
