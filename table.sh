@@ -1,9 +1,7 @@
 #!/bin/bash
 
 showTableOptions() {
-    selectedTable=${1}
-    clear
-    echo ">>>>> Table ${1} <<<<<<"
+    echo ">>>>> Table ${selectedTable} <<<<<<"
     echo "================"
     echo " 1- Show All"
     echo " 2- Select Record"
@@ -15,13 +13,11 @@ showTableOptions() {
 insertRecord() {
     declare -a record
     typeset -i index=0
-    for i in `tr "|," "| " < $selectedTable`
-    do
-        dtype=`echo $i | grep -o -P '(?<=\|).*(?=\|)'`
-        cname=`echo $i | grep -o -P '^[^\|]*'`
+    for i in $(tr "|," "| " <$selectedTable); do
+        dtype=$(echo $i | grep -o -P '(?<=\|).*(?=\|)')
+        cname=$(echo $i | grep -o -P '^[^\|]*')
 
         read -p "Enter $cname as $dtype: " validate
-        
 
         if [ "${dtype}" = "int" ]; then
             while ! [[ "$validate" =~ ^[0-9]+$ ]]; do
@@ -35,20 +31,28 @@ insertRecord() {
         record[$index]=$validate
         index=$index+1
     done
-    echo ${record[@]} | tr " " "," >> $selectedTable
+    echo ${record[@]} | tr " " "," >>$selectedTable
 
 }
 
 readTableOptions() {
-    showTableOptions $1
+    selectedTable=$1
+    showTableOptions
     read input
     case $input in
     1)
-        column -t $1
+        clear
+        cat $selectedTable | column -t -s ","
+        readTableOptions $selectedTable
         ;;
 
     2)
-        selectRecord
+        read -p "PLZ Enter Line Number : " ln
+        let "ln=$ln+1"
+        clear
+        sed -n $ln"p" <$selectedTable
+        printf "\n"
+        readTableOptions $selectedTable
         ;;
 
     3)
