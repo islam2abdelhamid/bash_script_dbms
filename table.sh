@@ -8,6 +8,7 @@ showTableOptions() {
     echo " 3- Insert New Record"
     echo " 4- Delete Record"
     echo " 5- Go Back"
+    echo "================"
 }
 
 insertRecord() {
@@ -50,7 +51,7 @@ readTableOptions() {
         read -p "PLZ Enter Line Number : " ln
         let "ln=$ln+1"
         clear
-        sed -n $ln"p" <$selectedTable
+        sed -n 1,$ln"p" <$selectedTable
         printf "\n"
         readTableOptions $selectedTable
         ;;

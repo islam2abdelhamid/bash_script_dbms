@@ -1,23 +1,30 @@
 showMainMenu() {
+    echo "------------------------"
     echo "Select "
     echo " 1- List Databases"
     echo " 2- Create New Database"
     echo " 3- Connect To Database"
+    echo "------------------------"
 
     getMainMenuInput
 
 }
 
 getMainMenuInput() {
-    read input
+    read -p ">>" input
     case $input in
 
     1)
         clear
-        echo "All Databases"
         echo "------------------------"
-        ls "$db_absolute_path"
-        echo "------------------------"
+
+        if [ -z "$(ls -A ${db_absolute_path})" ]; then
+            echo "No Database!"
+        else
+            echo "All Databases"
+            ls "$db_absolute_path"
+        fi
+
         showMainMenu
         getMainMenuInput
         ;;
@@ -63,8 +70,7 @@ createDatabase() {
 }
 
 connectToDatabase() {
-    printf "PLZ Enter Database Name\n"
-    read dbname
+    read -p "PLZ Enter Database Name:" dbname
 
     if [ -d "${db_absolute_path}${dbname}" ]; then
         clear

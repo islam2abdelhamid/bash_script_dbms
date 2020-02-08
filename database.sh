@@ -1,6 +1,4 @@
 showTableMenu() {
-    echo ">>>>> Tables <<<<<<"
-    echo $(ls)
     echo "================"
     echo "Select "
     echo " 1- Select Table"
@@ -8,10 +6,11 @@ showTableMenu() {
     echo " 3- Delete Table"
     echo " 4- Show All Tables"
     echo " 5- Go Back"
+    echo "================"
 }
 
 createTable() {
-#    declare -a carr=("_id|int|")
+    #    declare -a carr=("_id|int|")
     declare -a carr
     read -p "Enter Table Name: " tbname
     while ! [[ "$tbname" =~ ^[A-Za-z0-9]+$ ]]; do #validate string only
@@ -54,7 +53,7 @@ createTable() {
 
 readTableInput() {
     showTableMenu
-    read input
+    read -p ">>" input
     case $input in
     1)
         clear
@@ -73,7 +72,7 @@ readTableInput() {
         ;;
     4)
         clear
-        ls
+        showAllTables
         readTableInput
         ;;
     5)
@@ -92,7 +91,7 @@ readTableInput() {
 }
 
 selectTable() {
-    read -p "PLZ Enter Table Name " tbname
+    read -p "PLZ Enter Table Name :" tbname
     if [ -f "$tbname" ]; then
         readTableOptions "$tbname"
     else
@@ -103,11 +102,23 @@ selectTable() {
 }
 
 deleteTable() {
-    read -p "PLZ Enter Table Name to be deleted " tbname
+    read -p "PLZ Enter Table Name to be deleted : " tbname
     if [ -f "$tbname" ]; then
         rm "$tbname"
     else
         echo "Table Not Found!"
+    fi
+
+}
+
+showAllTables() {
+    echo ">>>>> Tables <<<<<<"
+
+    if [ -z "$(ls -A)" ]; then
+        echo "No Tables!"
+    else
+        echo "All Tables"
+        ls
     fi
 
 }
