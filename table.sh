@@ -15,7 +15,7 @@ deletetRecord() {
     typeset -i recordno
     read -p "Enter Record no.: " recordno
     while ! [[ "$recordno" =~ ^[0-9]+$ ]]; do
-                read -p "Enter valid number: " recordno
+        read -p "Enter valid number: " recordno
     done
     recordno=$recordno+1
     if [ $recordno -eq 1 ]; then
@@ -23,7 +23,6 @@ deletetRecord() {
     else
         sed -i "${recordno}d" ${selectedTable}
     fi
-
 
 }
 
@@ -41,7 +40,7 @@ insertRecord() {
                 read -p "Enter valid number: " validate
             done
         else
-            while ! [[ "$validate" =~ ^[A-Za-z0-9]+$ ]]; do #validate string only
+            while ! [[ "$validate" =~ ^[A-Za-z0]+$ ]]; do #validate string only
                 read -p "Enter valid string: " validate
             done
         fi
@@ -55,7 +54,7 @@ insertRecord() {
 readTableOptions() {
     selectedTable=$1
     showTableOptions
-    read input
+    read -p ">>" input
     case $input in
     1)
         clear
@@ -74,9 +73,11 @@ readTableOptions() {
 
     3)
         insertRecord
+        readTableOptions $selectedTable
         ;;
     4)
         deletetRecord
+        readTableOptions $selectedTable
         ;;
     5)
         clear

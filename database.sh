@@ -13,7 +13,7 @@ createTable() {
     #    declare -a carr=("_id|int|")
     declare -a carr
     read -p "Enter Table Name: " tbname
-    while ! [[ "$tbname" =~ ^[A-Za-z0-9]+$ ]]; do #validate string only
+    while ! [[ "$tbname" =~ ^[A-Za-z0]+$ ]]; do #validate string only
         read -p "Enter valid string: " tbname
     done
 
@@ -30,7 +30,7 @@ createTable() {
 
     for i in $(seq $cols); do
         read -p "enter column $i name: " cname
-        while ! [[ "$cname" =~ ^[A-Za-z0-9]+$ ]]; do #validate string only
+        while ! [[ "$cname" =~ ^[A-Za-z0]+$ ]]; do #validate string only
             read -p "Enter valid string: " cname
         done
 
